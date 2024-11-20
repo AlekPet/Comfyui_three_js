@@ -201,7 +201,11 @@ export class ThreeCanvas {
         scene.add( light3 );
 
         this.loaderGltf.load( headModel.href, async function ( gltf ) {
-            self.addObjectToScene( "model", { update: null, geo: gltf.scene, mat: {color:0xffffff}, scale: {x: 10, y: 10, z: 10}} );
+            self.addObjectToScene( "model", { update: function(){
+                const time = performance.now() / 1000;
+                const scale = Math.abs(Math.sin(time)) + 10
+                this.object.scale.set(scale,scale,scale)
+            }, geo: gltf.scene, mat: {color:0xffffff}, scale: {x: 10, y: 10, z: 10}} );
         })
 
     }
@@ -366,10 +370,5 @@ class ThreeObject {
 
     updateObject() {
         this.object.rotation.y += 0.001;
-
-        const time = performance.now() / 1000;
-        const scale = Math.abs(Math.sin(time)) + 10
-        this.object.scale.set(scale,scale,scale)
-
     }
 }
